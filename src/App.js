@@ -1,26 +1,62 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {TodoList} from "./TodoList";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from "moment";
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import { Login } from './components/Login';
+import TodoApp from './components/TodoApp';
+import Swal from 'sweetalert2';
 
-class App extends Component {
+const App = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {items: [], text: '', priority: 0, dueDate: moment()};
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.handlePriorityChange = this.handlePriorityChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    localStorage.setItem("isLoggedIn","false");
+
+    let isLogged = localStorage.getItem("isLoggedIn");
+
+	if(isLogged === "false"){
+		isLogged = false;
+	} 
+    
+    else if (isLogged === "true"){
+		isLogged = true;
+	}
+
+    const [isLoggedIn, setisLoggedIn] = useState(isLogged);
+
+    const handleSuccessfullyLogin = (e) => {
+        Swal.fire({
+            title: 'Yei!',
+            text: 'Welcome',
+            timer: 2000,
+            timerProgressBar: false,
+            icon: 'success',
+            showConfirmButton: false
+        })
+        setisLoggedIn(true);
+        localStorage.setItem("isLoggedIn", true);
     }
 
+    const handleFailedLogin = (e) => {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Data incorrect',
+            icon: 'error',
+            showConfirmButton: true
+        })
+        setisLoggedIn(false);
+        localStorage.setItem("isLoggedIn", false);
+    }
 
-    render() {
+    const LoginView = () => (
+        <Login successful={handleSuccessfullyLogin} failed={handleFailedLogin} />
+    );
+  
+    const TodoAppView = () => (
+        <TodoApp/>
+    );
 
-        return (
+    return (
+        <Router>
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
@@ -29,89 +65,19 @@ class App extends Component {
 
                 <br/>
                 <br/>
-                <form onSubmit={this.handleSubmit} className="todo-form">
-                    <h3>New TODO</h3>
-                    <label htmlFor="text" className="right-margin">
-                        Text:
-                    </label>
 
-                    <input
-                        id="text"
-                        onChange={this.handleTextChange}
-                        value={this.state.text}>
-                    </input>
+                <ul>
+                    <li><Link to="/">Login</Link></li>
+                    {isLoggedIn && (<Route path="/" component={TodoAppView}/>)}
+                </ul>
 
-                    <br/>
-                    <br/>
-                    <label htmlFor="priority" className="right-margin">
-                        Priority:
-                    </label>
-
-                    <input
-                        id="priority"
-                        type="number"
-                        onChange={this.handlePriorityChange}
-                        value={this.state.priority}>
-                    </input>
-                    <br/>
-                    <br/>
-
-                    <DatePicker
-                        id="due-date"
-                        selected={this.state.dueDate}
-                        placeholderText="Due date"
-                        onChange={this.handleDateChange}>
-                    </DatePicker>
-                    <br/>
-                    <button>
-                        Add #{this.state.items.length + 1}
-                    </button>
-                </form>
-                <br/>
-                <br/>
-                <TodoList todoList={this.state.items}/>
+                <div>
+                    <Route exact path="/" component={LoginView}/>
+                    {isLoggedIn && (<Route path="/todo" component={TodoAppView}/>)}
+                </div>
             </div>
-        );
-    }
-
-    handleTextChange(e) {
-        this.setState({
-            text: e.target.value
-        });
-    }
-
-    handlePriorityChange(e) {
-        this.setState({
-            priority: e.target.value
-        });
-    }
-
-    handleDateChange(date) {
-        this.setState({
-            dueDate: date
-        });
-    }
-
-    handleSubmit(e) {
-
-        e.preventDefault();
-
-        if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate)
-            return;
-
-        const newItem = {
-            text: this.state.text,
-            priority: this.state.priority,
-            dueDate: this.state.dueDate,
-
-        };
-        this.setState(prevState => ({
-            items: prevState.items.concat(newItem),
-            text: '',
-            priority: '',
-            dueDate: ''
-        }));
-    }
+        </Router>
+    );
 
 }
 
