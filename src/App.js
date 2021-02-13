@@ -13,7 +13,7 @@ const App = () => {
     localStorage.setItem('user', "daniela@gmail.com");
     localStorage.setItem('pass', "hola123");
 
-    //localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem("isLoggedIn", "false");
 
     let isLogged = localStorage.getItem("isLoggedIn");
 
@@ -60,36 +60,20 @@ const App = () => {
     );
 
     return (
-        <div>
-            <Router>
-                <div className="App">
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <h1 className="App-title">TODO React App</h1>
-                    </header>
+        <Router>
+        <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo"/>
+                <h1 className="App-title">TODO React App</h1>
+            </header>
 
-                    <br />
-                    <br />
-
-                    <ul>
-                        <li><Link to="/">Login</Link></li>
-
-                        {isLoggedIn && (<li><Link to="/todo">Todo</Link></li>)}
-
-                    </ul>
-
-                    <div>
-
-                        <Route exact path="/" component={LoginView} />
-
-                        {isLoggedIn && (<Route path="/todo" component={TodoAppView} />)}
-
-                    </div>
-                </div>
-            </Router>
-
-
+            <div>
+                <Route exact path="/todo" component={TodoAppView}/>
+                {!isLoggedIn && (<Route path="/" component={LoginView}/>)}
+                {isLoggedIn && (<Route path="/" component={TodoAppView}/>)}
+            </div>
         </div>
+    </Router>
     );
 
 }
