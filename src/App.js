@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Login } from './components/Login';
 import TodoApp from './components/TodoApp';
 import Swal from 'sweetalert2';

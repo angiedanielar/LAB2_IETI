@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
 import { TodoList } from './TodoList';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 
 const TodoApp = () => {
 
@@ -47,49 +51,43 @@ const TodoApp = () => {
     }
 
     return (
-        <div className="App">
-            <form onSubmit={handleSubmit} className="todo-form">
-                <h3>New TODO</h3>
-                <label htmlFor="text" className="right-margin">
-                    Text:
-                    </label>
+        <div>
+            <div className="App">
+                <form onSubmit={handleSubmit} className="todo-form">
 
-                <input
-                    id="text"
-                    onChange={handleTextChange}
-                    value={text}>
-                </input>
+                    <Typography variant="h2">New TODO</Typography>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="text">Text:</InputLabel>
+                        <Input id="text" name="text" autoFocus onChange={handleTextChange} />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="number">Priority:</InputLabel>
+                        <Input id="priority" name="priority" autoFocus onChange={handlePriorityChange} />
+                    </FormControl>
+                    <br></br>
+                    <br></br>
+                    <DatePicker
 
-                <br />
-                <br />
-                <label htmlFor="priority" className="right-margin">
-                    Priority:
-                    </label>
-
-                <input
-                    id="priority"
-                    type="number"
-                    onChange={handlePriorityChange}
-                    value={priority}>
-                </input>
-                <br />
-                <br />
-
-                <DatePicker>
-
-                    id="due-date"
+                        id="due-date"
                         selected={dueDate}
                         placeholderText="Due date"
                         onChange={(dueDate) => handleDateChange(dueDate)}>
                     </DatePicker>
-                <br />
-                <button>
-                    Add #{items.length + 1}
-                </button>
-            </form>
-            <br />
-            <br />
-            <TodoList todoList={items} />
+                    <br></br>
+                    <br></br>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className="submit">
+                        Add #{items.length + 1}
+                    </Button>
+                </form>
+                <br></br>
+                <br></br>
+                <TodoList todoList={items} />
+            </div>
         </div>
     )
 }

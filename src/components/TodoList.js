@@ -13,14 +13,12 @@ export const TodoList = ({ todoList }) => {
         <div>
             <table>
                 <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Priority</th>
-                        <th>Due Date</th>
-                    </tr>
+                    <th>Task</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
                 </thead>
                 <tbody>
-                    {lista}
+                {lista}
                 </tbody>
             </table>
         </div>
