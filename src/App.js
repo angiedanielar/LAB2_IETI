@@ -1,25 +1,29 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import { Login } from './components/Login';
 import TodoApp from './components/TodoApp';
 import Swal from 'sweetalert2';
 
 const App = () => {
 
-    localStorage.setItem("isLoggedIn","false");
+    //Save data
+    localStorage.setItem('user', "daniela@gmail.com");
+    localStorage.setItem('pass', "hola123");
+
+    //localStorage.setItem("isLoggedIn", "false");
 
     let isLogged = localStorage.getItem("isLoggedIn");
 
-	if(isLogged === "false"){
-		isLogged = false;
-	} 
-    
-    else if (isLogged === "true"){
-		isLogged = true;
-	}
+    if (isLogged === "false") {
+        isLogged = false;
+    }
+
+    else if (isLogged === "true") {
+        isLogged = true;
+    }
 
     const [isLoggedIn, setisLoggedIn] = useState(isLogged);
 
@@ -48,35 +52,44 @@ const App = () => {
     }
 
     const LoginView = () => (
-        <Login successful={handleSuccessfullyLogin} failed={handleFailedLogin} />
+        <Login correct={handleSuccessfullyLogin} incorrect={handleFailedLogin} />
     );
-  
+
     const TodoAppView = () => (
-        <TodoApp/>
+        <TodoApp />
     );
 
     return (
-        <Router>
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">TODO React App</h1>
-                </header>
+        <div>
+            <Router>
+                <div className="App">
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo" />
+                        <h1 className="App-title">TODO React App</h1>
+                    </header>
 
-                <br/>
-                <br/>
+                    <br />
+                    <br />
 
-                <ul>
-                    <li><Link to="/">Login</Link></li>
-                    {isLoggedIn && (<Route path="/" component={TodoAppView}/>)}
-                </ul>
+                    <ul>
+                        <li><Link to="/">Login</Link></li>
 
-                <div>
-                    <Route exact path="/" component={LoginView}/>
-                    {isLoggedIn && (<Route path="/todo" component={TodoAppView}/>)}
+                        {isLoggedIn && (<li><Link to="/todo">Todo</Link></li>)}
+
+                    </ul>
+
+                    <div>
+
+                        <Route exact path="/" component={LoginView} />
+
+                        {isLoggedIn && (<Route path="/todo" component={TodoAppView} />)}
+
+                    </div>
                 </div>
-            </div>
-        </Router>
+            </Router>
+
+
+        </div>
     );
 
 }

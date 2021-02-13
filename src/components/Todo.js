@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Todo = ({text,priority,dueDate}) => {
+export const Todo = ({ text, priority, dueDate }) => {
     return (
         <div>
             <tr>

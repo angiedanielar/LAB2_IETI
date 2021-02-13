@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,7 +10,33 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import './Login.css';
 
-export const Login = () => {
+export const Login = ({correct,incorrect}) => {
+
+    //Read data
+    localStorage.getItem('user');
+    localStorage.getItem('pass');
+
+    const [user, setuser] = useState("")
+    const [pass, setpass] = useState("")
+
+    const handleUserChange = (e) =>{
+        setuser(e.target.value)
+    }
+
+    const handlePassChange = (e) =>{
+        setpass(e.target.value)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(user === localStorage.getItem("user") && pass === localStorage.getItem("pass")){
+            correct();
+        } else {
+            incorrect();
+        }
+    }
+
+
     return (
         <div>
             <React.Fragment>
@@ -21,10 +47,10 @@ export const Login = () => {
                             <LockIcon />
                         </Avatar>
                         <Typography variant="h2">Sign in</Typography>
-                        <form className="form">
+                        <form className="form" onSubmit={handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                                <Input id="email" name="email" autoComplete="email" autoFocus />
+                                <Input id="email" name="email" autoComplete="email" autoFocus onChange={handleUserChange}/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -33,6 +59,7 @@ export const Login = () => {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    onChange={handlePassChange}
                                 />
                             </FormControl>
                             <Button
@@ -47,7 +74,7 @@ export const Login = () => {
                         </form>
                     </Paper>
                 </main>
-            </React.Fragment>  
+            </React.Fragment>
         </div>
     )
 }
