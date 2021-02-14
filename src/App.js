@@ -13,7 +13,7 @@ const App = () => {
     localStorage.setItem('user', "daniela@gmail.com");
     localStorage.setItem('pass', "hola123");
 
-    localStorage.setItem("isLoggedIn", "false");
+    //localStorage.setItem("isLoggedIn", "false");
 
     let isLogged = localStorage.getItem("isLoggedIn");
 
@@ -37,7 +37,7 @@ const App = () => {
             showConfirmButton: false
         })
         setisLoggedIn(true);
-        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("isLoggedIn", 'true');
     }
 
     const handleFailedLogin = (e) => {
@@ -48,7 +48,7 @@ const App = () => {
             showConfirmButton: true
         })
         setisLoggedIn(false);
-        localStorage.setItem("isLoggedIn", false);
+        localStorage.setItem("isLoggedIn", 'false');
     }
 
     const LoginView = () => (
